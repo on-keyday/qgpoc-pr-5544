@@ -29,6 +29,7 @@ $ docker compose exec client ip a
     link/ether c2:b5:16:23:02:21 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 10.200.0.2/24 brd 10.200.0.255 scope global eth1
        valid_lft forever preferred_lft forever
+
 $ docker compose exec client ip route replace 10.250.1.1/32 via 10.210.0.254 dev eth0
 ```
 
