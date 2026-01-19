@@ -1,0 +1,83 @@
+services:
+  # --- Endpoints ---
+  client:
+    privileged: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TARGET: client
+    container_name: client
+    networks: # multi-homed to simulate different network paths
+      net_a:
+        ipv4_address: 10.200.0.2 # Path A (like ISP A)
+      net_b:
+        ipv4_address: 10.210.0.2 # Path B (like ISP B)
+    stdin_open: true
+    tty: true
+    environment:
+      - QUIC_GO_LOG_LEVEL=debug
+      - DEST_NET=10.250.1.1/32
+      - ROUTE_VIA=10.200.0.254
+      - SERVER_VIP=10.250.1.1
+
+
+  server:
+    privileged: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TARGET: server
+    container_name: server
+    networks:
+      net_c:
+        ipv4_address: 10.220.0.2  # Server side network
+    stdin_open: true
+    tty: true
+    environment:
+      - QUIC_GO_LOG_LEVEL=debug
+      - SERVER_VIP=10.250.1.1
+
+  router1:
+    image: nicolaka/netshoot
+    container_name: router1
+    privileged: true
+    volumes:
+      - ./init-router.sh:/init-router.sh:ro
+    command: sh /init-router.sh
+    networks:
+      net_a:
+        ipv4_address: 10.200.0.254
+      net_b:
+        ipv4_address: 10.210.0.254
+      net_c:
+        ipv4_address: 10.220.0.254
+    environment:
+      - SERVER_VIP=10.250.1.1
+
+
+
+networks:
+  net_a:
+    ipam:
+      config:
+        - subnet: 10.200.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: net1
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+  net_b:
+    ipam:
+      config:
+        - subnet: 10.210.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: net2
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+  net_c:
+    ipam:
+      config:
+        - subnet: 10.220.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: net3
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+ 
