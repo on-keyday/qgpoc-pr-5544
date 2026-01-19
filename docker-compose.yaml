@@ -65,19 +65,19 @@ networks:
         - subnet: 10.200.0.0/24
     driver_opts:
       com.docker.network.bridge.name: net1
-      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3
   net_b:
     ipam:
       config:
         - subnet: 10.210.0.0/24
     driver_opts:
       com.docker.network.bridge.name: net2
-      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3
   net_c:
     ipam:
       config:
         - subnet: 10.220.0.0/24
     driver_opts:
       com.docker.network.bridge.name: net3
-      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3:net4
+      com.docker.network.bridge.trusted_host_interfaces: net1:net2:net3
  
