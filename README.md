@@ -30,6 +30,7 @@ $ docker compose exec client ip a
     inet 10.200.0.2/24 brd 10.200.0.255 scope global eth1
        valid_lft forever preferred_lft forever
 
+# modify route 10.200.0.254 -> 10.210.0.254 that cause client ip change
 $ docker compose exec client ip route replace 10.250.1.1/32 via 10.210.0.254 dev eth0
 ```
 
