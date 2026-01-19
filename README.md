@@ -40,7 +40,7 @@ Server Real IP: 10.220.0.2
 Client on Path1: 10.200.0.2
 Client on Path2: 10.210.0.2
 ```
-Note: packet from Server Real IP are dropped to simulate nat behavior.
+Note: packets from Server Real IP are dropped to simulate nat behavior.
 
 ```
 $ docker compose exec router1 tcpdump -i any -n
