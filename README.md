@@ -37,7 +37,7 @@ $ docker compose exec client ip route replace 10.250.1.1/32 via 10.210.0.254 dev
 3. Can see endless Path Probing
 
 ```
-Server VIP: 10.250.0.2
+Server VIP: 10.250.1.1
 Server Real IP: 10.220.0.2
 Client on Path1: 10.200.0.2
 Client on Path2: 10.210.0.2
